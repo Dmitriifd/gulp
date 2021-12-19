@@ -3,10 +3,10 @@ extends layout/app
 block page 
     include chunk/header
     
-    h1 Главная
+    h1.title Главная
     div text
 
-    ul
+    ul.news
         each item in news
             li= item.name
 
