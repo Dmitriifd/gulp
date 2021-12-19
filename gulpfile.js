@@ -26,6 +26,7 @@ const path = require('./config/path.js');
 const clear = require('./task/clear.js');
 const pug = require('./task/pug.js');
 const css = require('./task/css.js');
+const scss = require('./task/scss.js');
 // const html = require('./task/html');
 
 // Сервер
@@ -40,7 +41,8 @@ const server = () => {
 // Наблюдение
 const watcher = () => {
     watch(path.pug.watch, pug).on('all', browserSync.reload)
-    watch(path.css.watch, css).on('all', browserSync.reload)
+    watch(path.scss.watch, scss).on('all', browserSync.reload)
+    // watch(path.css.watch, css).on('all', browserSync.reload)
     // watch('./src/html/**/*.html', html) // Передача 2х параметров: маска файлов а которыми надо следить и список задач которые необходимо запускать при их изменении
     
 } 
@@ -48,14 +50,15 @@ const watcher = () => {
 // Задачи - экспорт задач
 
 exports.pug = pug;
-exports.css = css;
+exports.scss = scss;
+// exports.css = css;
 
 
 
 // Сборка
 exports.dev = series(
     clear, // удаление в самом начале
-    parallel(pug, css),
+    parallel(pug, scss), // css или scss
     // html,
     parallel(watcher, server)
 );
