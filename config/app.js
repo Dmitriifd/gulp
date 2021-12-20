@@ -7,5 +7,9 @@ module.exports = {
         data: {
             news: require('../data/news.json') // переменная news теперь доступна во всех шаблонах pug
         }
+    },
+    webpack: {
+        mode: 'development',
+        // mode: 'production',
     }
 }
