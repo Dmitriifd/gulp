@@ -6,6 +6,7 @@ const notify = require('gulp-notify'); // всплывающие сообщен�
 const fileInclede = require('gulp-file-include');
 const htmlmin = require('gulp-htmlmin'); // сжатие html
 const size = require('gulp-size'); // узнать размер до минификации и после
+const webpHtml = require('gulp-webp-html');
 
 // Конфигурация
 const path = require('../config/path.js');
@@ -22,8 +23,9 @@ const html = () => {
                 message: error.message
             }))
         }))
+        .pipe(fileInclede())
+        .pipe(webpHtml())
         .pipe(size({ title: 'До сжатия' }))
-        .pipe(fileInclede()) // вызываем плагин в pipe
         .pipe(htmlmin(app.htmlmin))
         .pipe(size({ title: 'После сжатия' }))
         .pipe(dest(path.html.dest))

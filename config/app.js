@@ -11,5 +11,8 @@ module.exports = {
     webpack: {
         mode: 'development',
         // mode: 'production',
+    },
+    imagemin: {
+        verbose: true
     }
 }

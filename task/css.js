@@ -11,6 +11,7 @@ const rename = require('gulp-rename');
 const size = require('gulp-size'); 
 const shorthand = require('gulp-shorthand'); // сокращения для css свойств
 const groupCssMedia = require('gulp-group-css-media-queries');
+const webpCss = require('gulp-webp-css');
 
 // Конфигурация
 const path = require('../config/path.js');
@@ -29,6 +30,7 @@ const css = () => {
     }))
     .pipe(concat('main.css')) // имя файла который должен вернуть
     .pipe(cssimport())
+    .pipe(webpCss())
     .pipe(autoprefixer())
     .pipe(shorthand())
     .pipe(groupCssMedia())

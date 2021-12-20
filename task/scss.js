@@ -11,6 +11,7 @@ const shorthand = require('gulp-shorthand'); // сокращения для css 
 const groupCssMedia = require('gulp-group-css-media-queries');
 const sass = require('gulp-sass')(require('sass'));
 const sassGlob = require('gulp-sass-glob'); // импорт sass файлов через маски
+const webpCss = require('gulp-webp-css');
 
 // Конфигурация
 const path = require('../config/path.js');
@@ -29,6 +30,7 @@ const scss = () => {
     }))
     .pipe(sassGlob())
     .pipe(sass())
+    .pipe(webpCss())
     .pipe(autoprefixer())
     .pipe(shorthand())
     .pipe(groupCssMedia())

@@ -4,6 +4,7 @@ const { src, dest } = require('gulp');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const pugs = require('gulp-pug'); 
+const webpHtml = require('gulp-webp-html');
 
 // Конфигурация
 const path = require('../config/path.js');
@@ -21,6 +22,7 @@ const pug = () => {
         }))
     }))
     .pipe(pugs(app.pug))
+    .pipe(webpHtml())
     .pipe(dest(path.pug.dest))
 }
 
