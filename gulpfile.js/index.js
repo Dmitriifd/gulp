@@ -1,10 +1,13 @@
-// Подключение нужных пакетов
-const { watch, series, parallel } = require('gulp');
-const browserSync = require('browser-sync').create(); 
+global.$ = {
+    //Пакеты
+    gulp: require('gulp'),
+    gp: require('gulp-load-plugins')(),
+    browserSync: require('browser-sync').create(),
 
-// Конфигурация
-const path = require('./config/path.js');
-const app = require('./config/app.js');
+    // Конфигурация
+    path: require('./config/path.js'),
+    app: require('./config/app.js'),
+}
 
 // src - Метод src вызываем в самом начале и передаем путь до исходных данных
 // pipe() -  передача потока записи
@@ -23,53 +26,48 @@ const app = require('./config/app.js');
 // return src(['./src/**/*.*, '!./src/**/*.js']) - ! исключения, все файлы за исключением js
 
 // Задачи
+const requireDir = require('require-dir');
+const task = requireDir('./task', {recurse: true})
+// const clear = require('./task/clear.js');
+// const server = require('./task/server.js');
+// const pug = require('./task/pug.js');
+// // const css = require('./task/css.js');
+// const scss = require('./task/scss.js');
+// const js = require('./task/js.js');
+// const img = require('./task/img.js');
+// const font = require('./task/font.js');
+// // const html = require('./task/html');
 
-const clear = require('./task/clear.js');
-const pug = require('./task/pug.js');
-// const css = require('./task/css.js');
-const scss = require('./task/scss.js');
-const js = require('./task/js.js');
-const img = require('./task/img.js');
-const font = require('./task/font.js');
-// const html = require('./task/html');
-
-// Сервер
-const server = () => {
-    browserSync.init({
-        server: {
-            baseDir: path.root
-        }
-    })
-}
+const { watch } = require("gulp");
 
 // Наблюдение
 const watcher = () => {
-    watch(path.pug.watch, pug).on('all', browserSync.reload)
-    watch(path.scss.watch, scss).on('all', browserSync.reload)
-    watch(path.js.watch, js).on('all', browserSync.reload)
-    watch(path.img.watch, img).on('all', browserSync.reload)
-    watch(path.font.watch, font).on('all', browserSync.reload)
+    watch($.path.pug.watch, task.pug);
+    watch($.path.scss.watch, task.scss);
+    watch($.path.js.watch, task.js);
+    watch($.path.img.watch, task.img);
+    watch($.path.font.watch, task.font);
     // watch(path.css.watch, css).on('all', browserSync.reload)
     // watch('./src/html/**/*.html', html) // Передача 2х параметров: маска файлов а которыми надо следить и список задач которые необходимо запускать при их изменении
     
 } 
 
-const build = series(
-    clear,
-    parallel(pug, scss, js, img, font)
+const build = $.gulp.series(
+    task.clear,
+    $.gulp.parallel(task.pug, task.scss, task.js, task.img, task.font)
 );
-const dev = series(
+const dev = $.gulp.series(
     build,
-    parallel(watcher, server)
+    $.gulp.parallel(watcher, task.server)
 );
 
 // Задачи - экспорт задач
 
-exports.pug = pug;
-exports.scss = scss;
-exports.js = js;
-exports.img = img;
-exports.font = font;
+exports.pug = task.pug;
+exports.scss = task.scss;
+exports.js = task.js;
+exports.img = task.img;
+exports.font = task.font;
 // exports.css = css;
 
 
@@ -83,7 +81,7 @@ exports.font = font;
 //     parallel(watcher, server)
 // );
 
-exports.default = app.isProd ? build : dev;
+exports.default = $.app.isProd ? build : dev;
 
 // команды для сборки
 // 'gulp' - режим разработки

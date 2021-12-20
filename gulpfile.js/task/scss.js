@@ -40,6 +40,7 @@ const scss = () => {
     .pipe(csso())
     .pipe(size({ title: 'main.min.css' }))
     .pipe(dest(path.scss.dest, { sourcemaps: app.isDev }))
+    .pipe($.browserSync.stream());
 }
 
 module.exports = scss;

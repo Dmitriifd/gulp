@@ -30,6 +30,7 @@ const img = () => {
     .pipe(newer(path.img.dest)) 
     .pipe(gulpif(app.isProd, imagemin(app.imagemin)))
     .pipe(dest(path.img.dest))
+    .pipe($.browserSync.stream());
 }
 
 module.exports = img;

@@ -27,6 +27,7 @@ const font = () => {
     .pipe(dest(path.font.dest))
     .pipe(ttw2woff2())
     .pipe(dest(path.font.dest))
+    .pipe($.browserSync.stream());
 }
 
 module.exports = font;

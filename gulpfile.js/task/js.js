@@ -24,6 +24,7 @@ const js = () => {
     .pipe(babel())
     .pipe(webpack(app.webpack))
     .pipe(dest(path.js.dest, { sourcemaps: app.isDev }))
+    .pipe($.browserSync.stream());
 }
 
 module.exports = js;
