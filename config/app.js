@@ -14,5 +14,8 @@ module.exports = {
     },
     imagemin: {
         verbose: true
+    },
+    fonter: {
+        formats: ['ttf', 'woff', 'eot', 'svg']
     }
 }
