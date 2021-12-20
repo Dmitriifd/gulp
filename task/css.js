@@ -19,7 +19,7 @@ const app = require('../config/app.js');
 
 //Обработка Css
 const css = () => {
-    return src(path.css.src, { sourcemaps: true })
+    return src(path.css.src, { sourcemaps: app.isDev })
     // Плагин
     // Плагин
     .pipe(plumber({
@@ -35,11 +35,11 @@ const css = () => {
     .pipe(shorthand())
     .pipe(groupCssMedia())
     .pipe(size({ title: 'main.css' }))
-    .pipe(dest(path.css.dest, { sourcemaps: true }))
+    .pipe(dest(path.css.dest, { sourcemaps: app.isDev }))
     .pipe(rename({ suffix: '.min' }))
     .pipe(csso())
     .pipe(size({ title: 'main.min.css' }))
-    .pipe(dest(path.css.dest, { sourcemaps: true }))
+    .pipe(dest(path.css.dest, { sourcemaps: app.isDev }))
 }
 
 module.exports = css;

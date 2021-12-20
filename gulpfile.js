@@ -4,6 +4,7 @@ const browserSync = require('browser-sync').create();
 
 // Конфигурация
 const path = require('./config/path.js');
+const app = require('./config/app.js');
 
 // src - Метод src вызываем в самом начале и передаем путь до исходных данных
 // pipe() -  передача потока записи
@@ -53,6 +54,15 @@ const watcher = () => {
     
 } 
 
+const build = series(
+    clear,
+    parallel(pug, scss, js, img, font)
+);
+const dev = series(
+    build,
+    parallel(watcher, server)
+);
+
 // Задачи - экспорт задач
 
 exports.pug = pug;
@@ -65,9 +75,16 @@ exports.font = font;
 
 
 // Сборка
-exports.dev = series(
-    clear, // удаление в самом начале
-    parallel(pug, scss, js, img, font), // css или scss
-    // html,
-    parallel(watcher, server)
-);
+// exports.dev = series(
+//     // clear, // удаление в самом начале
+//     // parallel(pug, scss, js, img, font), // css или scss
+//     // // html,
+//     build,
+//     parallel(watcher, server)
+// );
+
+exports.default = app.isProd ? build : dev;
+
+// команды для сборки
+// 'gulp' - режим разработки
+// 'gulp --production' - сборка production
