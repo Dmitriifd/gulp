@@ -1,7 +1,9 @@
+import news from '../data/news.json';
+
 const isProd = process.argv.includes('--production');
 const isDev = !isProd;
 
-module.exports = {
+export default {
     isProd: isProd,
     isDev: isDev,
 
@@ -11,7 +13,7 @@ module.exports = {
     pug: {
         pretty: isDev, // чтобы html не сжимался
         data: {
-            news: require('../data/news.json') // переменная news теперь доступна во всех шаблонах pug
+            news: news // переменная news теперь доступна во всех шаблонах pug
         }
     },
     webpack: {
